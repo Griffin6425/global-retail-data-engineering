@@ -1,0 +1,180 @@
+[project]
+name = "global-retail-data-engineering"
+version = "0.1.0"
+description = "End-to-end retail data engineering pipeline on Databricks"
+authors = [
+    {name = "Griffin Wu", email = "your.email@example.com"}
+]
+readme = "README.md"
+requires-python = ">=3.9,<3.12"
+license = {text = "MIT"}
+
+keywords = ["databricks", "pyspark", "data-engineering", "retail", "delta-lake"]
+
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+]
+
+dependencies = [
+    "pyspark>=3.4.0,<3.5.0",
+    "delta-spark>=2.4.0,<3.0.0",
+    "pandas>=2.0.0,<3.0.0",
+    "numpy>=1.24.0,<2.0.0",
+    "pyarrow>=14.0.0,<15.0.0",  # 改为 14.0.0，支持 Python 3.12
+    "databricks-cli>=0.17.0,<1.0.0",
+    "databricks-sdk>=0.12.0,<1.0.0",
+    "great-expectations>=0.17.0,<1.0.0",
+    "python-dotenv>=1.0.0,<2.0.0",
+    "pyyaml>=6.0,<7.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0,<8.0.0",
+    "pytest-cov>=4.1.0,<5.0.0",
+    "pytest-spark>=0.6.0,<1.0.0",
+    "black>=23.7.0,<24.0.0",
+    "ruff>=0.1.0,<1.0.0",
+    "mypy>=1.5.0,<2.0.0",
+    "pre-commit>=3.4.0,<4.0.0",
+]
+
+docs = [
+    "sphinx>=7.1.0,<8.0.0",
+    "sphinx-rtd-theme>=1.3.0,<2.0.0",
+    "myst-parser>=2.0.0,<3.0.0",
+]
+
+notebook = [
+    "jupyter>=1.0.0,<2.0.0",
+    "ipykernel>=6.25.0,<7.0.0",
+    "jupyterlab>=4.0.0,<5.0.0",
+]
+
+viz = [
+    "matplotlib>=3.7.0,<4.0.0",
+    "seaborn>=0.12.0,<1.0.0",
+    "plotly>=5.16.0,<6.0.0",
+]
+
+all = [
+    "global-retail-data-engineering[dev,docs,notebook,viz]",
+]
+
+[project.urls]
+Homepage = "https://github.com/Griffin6425/global-retail-data-engineering"
+Repository = "https://github.com/Griffin6425/global-retail-data-engineering"
+Documentation = "https://github.com/Griffin6425/global-retail-data-engineering/blob/main/README.md"
+Issues = "https://github.com/Griffin6425/global-retail-data-engineering/issues"
+
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.black]
+line-length = 88
+target-version = ['py39', 'py310', 'py311']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+    \.eggs
+  | \.git
+  | \.venv
+  | build
+  | dist
+  | notebooks
+)/
+'''
+
+[tool.ruff]
+line-length = 88
+target-version = "py39"
+extend-exclude = [
+    ".git",
+    ".venv",
+    "__pycache__",
+    "build",
+    "dist",
+    "notebooks",
+]
+
+[tool.ruff.lint]
+select = [
+    "E",
+    "W",
+    "F",
+    "I",
+    "B",
+    "C4",
+    "UP",
+]
+ignore = [
+    "E501",
+    "B008",
+    "C901",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]
+"tests/**/*.py" = ["S101"]
+
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+ignore_missing_imports = true
+exclude = [
+    "notebooks/",
+    "tests/",
+    "build/",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "-v",
+    "--strict-markers",
+    "--strict-config",
+    "--cov=src",
+    "--cov-report=term-missing",
+    "--cov-report=html",
+]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests as integration tests",
+    "unit: marks tests as unit tests",
+]
+
+[tool.coverage.run]
+source = ["src"]
+omit = [
+    "*/tests/*",
+    "*/test_*.py",
+    "*/__pycache__/*",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+    "class .*\\bProtocol\\):",
+    "@(abc\\.)?abstractmethod",
+]

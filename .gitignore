@@ -179,3 +179,44 @@ cython_debug/
 #  refer to https://docs.cursor.com/context/ignore-files
 .cursorignore
 .cursorindexingignore
+
+# Databricks Specific
+.databricks/
+*.dbc
+
+# Data Files (don't commit large datasets)
+*.csv
+*.parquet
+*.json
+*.xlsx
+*.xls
+data/raw/*
+data/processed/*
+!data/sample/*.csv
+!data/sample/*.json
+
+# Credentials and Secrets
+config/credentials.py
+secrets/
+*.token
+*.key
+.env
+
+# IDE Settings (Mac specific)
+.DS_Store
+.vscode/
+.idea/
+
+# Logs
+*.log
+logs/
+
+# uv specific
+.venv/
+uv.lock
+.python-version.bak
+
+# Python virtual environments (general)
+venv/
+env/
+ENV/
